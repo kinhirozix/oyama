@@ -1,5 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -14,6 +15,8 @@ plugins {
     alias(libs.plugins.fabric.loom) apply false
     alias(libs.plugins.neoforge.moddev) apply false
     alias(libs.plugins.shadowjar) apply false
+    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.spotless) apply false
 }
 
 idea {
@@ -31,6 +34,7 @@ description = property("description").toString()
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+    apply(plugin = "com.diffplug.spotless")
 
     group = rootProject.group
     version = rootProject.version
@@ -54,10 +58,23 @@ subprojects {
 
         sourceSets.all {
             languageSettings {
+                optIn("kotlin.RequiresOptIn")
                 optIn("kotlin.ExperimentalStdlibApi")
                 optIn("kotlin.contracts.ExperimentalContracts")
                 optIn("kotlinx.serialization.ExperimentalSerializationApi")
             }
+        }
+    }
+
+    extensions.configure<SpotlessExtension> {
+        java {
+            target("**/*.java")
+            licenseHeaderFile("$rootDir/spotless/license-header.java")
+        }
+
+        kotlin {
+            target("**/*.kt")
+            licenseHeaderFile("$rootDir/spotless/license-header.kt")
         }
     }
 
