@@ -74,7 +74,7 @@ subprojects {
     configure<SpotlessExtension> {
         java {
             target("*/src/main/java/oyama/**/*.java")
-            licenseHeaderFile("$rootDir/spotless/license-header.java")
+            licenseHeaderFile("$rootDir/spotless/license-header.java", "^(package|import|@)")
             removeUnusedImports()
             trimTrailingWhitespace()
             endWithNewline()
@@ -82,7 +82,7 @@ subprojects {
 
         kotlin {
             target("*/src/main/kotlin/oyama/**/*.kt")
-            licenseHeaderFile("$rootDir/spotless/license-header.kt")
+            licenseHeaderFile("$rootDir/spotless/license-header.kt", "^(package|import|@)")
             trimTrailingWhitespace()
             endWithNewline()
         }
