@@ -115,8 +115,10 @@ fabric.properties
 !.idea/codeStyles
 !.idea/runConfigurations
 
-# Ignore project icon by: Kinhiro Zix :)
+# Ignore project icon by Kinhiro :)
 !.idea/icon.svg
+# Include generated run configurations by Kinhiro (:
+.idea/runConfigurations
 
 ### Kotlin ###
 # Compiled class file
@@ -130,6 +132,9 @@ fabric.properties
 # Package Files #
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+
+# Include kotlin language settings files by Kinhiro (:
+.kotlin
 
 ### Windows ###
 # Windows thumbnail cache files
