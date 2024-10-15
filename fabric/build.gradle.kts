@@ -1,27 +1,49 @@
 @file:Suppress("SpellCheckingInspection", "UnstableApiUsage")
 
 plugins {
+    idea
     id("fabric-loom")
 }
 
+idea {
+    module {
+        isDownloadSources = true
+        isDownloadJavadoc = true
+    }
+}
+
 loom {
+    accessWidenerPath = file("src/main/resources/oyama.accessWidener")
+
     mixin {
-        useLegacyMixinAp.set(false)
+        defaultRefmapName = "oyama.refmap.json"
     }
 
     runs {
-        val client by getting {
+        all {
+            isIdeConfigGenerated = true
+        }
+
+        named("client") {
             client()
             configName = "Fabric Client"
             runDir("runs/client")
         }
 
-        val server by getting {
+        named("server") {
             server()
             configName = "Fabric Server"
             programArg("-nogui")
             runDir("runs/server")
         }
+    }
+}
+
+repositories {
+    exclusiveContent {
+        // Parchment Mappings
+        forRepository { maven("https://maven.parchmentmc.org") }
+        filter { includeGroup("org.parchmentmc.data") }
     }
 }
 
@@ -39,19 +61,27 @@ dependencies {
     modImplementation(libs.fabric.kotlin)
 
     implementation(project(":common"))
+
+    implementation(libs.annotations)
+    implementation(libs.typetools)
 }
 
 tasks {
     compileJava {
-        source(project(":common").sourceSets.main.get().allSource)
+        source(project(":common").sourceSets.main.get().java)
+    }
+
+    compileKotlin {
+        source(project(":common").sourceSets.main.get().kotlin)
+    }
+
+    sourcesJar {
+        from(project(":common").sourceSets.main.get().java)
+        from(project(":common").sourceSets.main.get().kotlin)
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
     processResources {
-        from(project(":common").sourceSets.main.get().output.resourcesDir)
-        dependsOn(project(":common").tasks.processResources)
-    }
-
-    remapJar {
-        archiveClassifier = project.name
+        from(project(":common").sourceSets.main.get().resources)
     }
 }

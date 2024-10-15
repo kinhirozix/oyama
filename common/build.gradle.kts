@@ -6,6 +6,7 @@ plugins {
 
 neoForge {
     neoFormVersion = libs.versions.neoform.get()
+    addModdingDependenciesTo(sourceSets.test.get())
 
     parchment {
         minecraftVersion = libs.versions.parchment.minecraft.get()
@@ -14,26 +15,21 @@ neoForge {
 }
 
 dependencies {
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.kotlin.reflect)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.io.core)
-    implementation(libs.kotlinx.io.bytestring)
-    implementation(libs.kotlinx.collections.immutable)
-    implementation(libs.kotlinx.atomicfu)
-    implementation(libs.kotlinx.datetime)
+    compileOnly(libs.kotlin.stdlib)
+    compileOnly(libs.kotlin.reflect)
+    compileOnly(libs.kotlinx.serialization.core)
+    compileOnly(libs.kotlinx.serialization.json)
+    compileOnly(libs.kotlinx.coroutines.core)
+    compileOnly(libs.kotlinx.io.core)
+    compileOnly(libs.kotlinx.io.bytestring)
+    compileOnly(libs.kotlinx.collections.immutable)
+    compileOnly(libs.kotlinx.atomicfu)
+    compileOnly(libs.kotlinx.datetime)
 
-    compileOnly(libs.mixin)
-    compileOnly(libs.mixinextras.common)
+    compileOnly(libs.fabric.mixin)
+    annotationProcessor(libs.mixinextras.common)
 
-    implementation(libs.annotations)
-    implementation(libs.typetools)
-}
-
-tasks {
-    jar {
-        enabled = false
-    }
+    compileOnly(libs.annotations)
+    compileOnly(libs.typetools)
+    compileOnly(libs.asm)
 }

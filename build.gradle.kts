@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter
 
 plugins {
     base
-    idea
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.fabric.loom) apply false
@@ -19,17 +18,23 @@ plugins {
     alias(libs.plugins.spotless) apply false
 }
 
-idea {
-    module {
-        isDownloadSources = true
-        isDownloadJavadoc = true
-    }
-}
-
 group = "com.kinhiro.mcmod"
 version = "${property("version")}+${libs.versions.minecraft.get()}"
 base.archivesName = property("namespace").toString()
 description = property("description").toString()
+
+tasks {
+    val collectModJars by registering(Copy::class) {
+        val tasks = subprojects.filter { it.path != "common" }.map { it.tasks.named("jar") }
+        dependsOn(tasks)
+        from(tasks)
+        into(layout.buildDirectory.dir("libs"))
+    }
+
+    assemble {
+        dependsOn(collectModJars)
+    }
+}
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
@@ -41,7 +46,7 @@ subprojects {
     base.archivesName = rootProject.base.archivesName
     description = rootProject.description
 
-    extensions.configure<JavaPluginExtension> {
+    configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
 
@@ -53,7 +58,7 @@ subprojects {
         withJavadocJar()
     }
 
-    extensions.configure<KotlinJvmProjectExtension> {
+    configure<KotlinJvmProjectExtension> {
         jvmToolchain(21)
 
         sourceSets.all {
@@ -66,28 +71,25 @@ subprojects {
         }
     }
 
-    extensions.configure<SpotlessExtension> {
+    configure<SpotlessExtension> {
         java {
-            target("**/*.java")
+            target("*/src/main/java/oyama/**/*.java")
             licenseHeaderFile("$rootDir/spotless/license-header.java")
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
         }
 
         kotlin {
-            target("**/*.kt")
+            target("*/src/main/kotlin/oyama/**/*.kt")
             licenseHeaderFile("$rootDir/spotless/license-header.kt")
+            trimTrailingWhitespace()
+            endWithNewline()
         }
     }
 
     repositories {
         mavenCentral()
-
-        maven("https://maven.parchmentmc.org") {
-            content {
-                // Parchment Mappings
-                val minecraftVersion = rootProject.libs.versions.parchment.minecraft.get()
-                includeModule("org.parchmentmc.data", "parchment-$minecraftVersion")
-            }
-        }
 
         maven("https://repo.spongepowered.org/repository/maven-public") {
             content {
@@ -116,15 +118,14 @@ subprojects {
             manifest {
                 attributes(
                     mapOf(
-                        "Specification-Title" to project.property("name"),
-                        "Specification-Vender" to project.property("authors"),
-                        "Specification-Version" to project.version,
-                        "Implementation-Title" to project.property("name"),
-                        "Implementation-Vendor" to project.property("authors"),
-                        "Implementation-Version" to project.version,
+                        "Specification-Title" to project.property("name").toString(),
+                        "Specification-Vender" to project.property("authors").toString(),
+                        "Specification-Version" to project.version.toString(),
+                        "Implementation-Title" to project.property("name").toString(),
+                        "Implementation-Vendor" to project.property("authors").toString(),
+                        "Implementation-Version" to project.version.toString(),
                         "Implementation-Timestamp" to ZonedDateTime.now()
-                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")),
-                        "Timestamp" to System.currentTimeMillis()
+                            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"))
                     )
                 )
             }
@@ -136,22 +137,30 @@ subprojects {
 
         "processResources"(ProcessResources::class) {
             val expandProperties = mapOf(
-                "namespace" to project.property("namespace"),
-                "version" to project.version,
-                "name" to project.property("name"),
-                "description" to project.description,
-                "license" to project.property("license"),
-                "authors" to project.property("authors"),
-                "homepage" to project.property("homepage"),
-                "sources" to project.property("sources"),
-                "issues" to project.property("issues")
+                "namespace" to project.property("namespace").toString(),
+                "version" to project.version.toString(),
+                "name" to project.property("name").toString(),
+                "description" to project.description!!,
+                "license" to project.property("license").toString(),
+                "authors" to project.property("authors").toString(),
+                "homepage" to project.property("homepage").toString(),
+                "sources" to project.property("sources").toString(),
+                "issues" to project.property("issues").toString()
             )
 
             inputs.properties(expandProperties)
-
-            filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml")) {
+            filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "pack.mcmeta")) {
                 expand(expandProperties)
             }
+        }
+
+        withType<GenerateModuleMetadata> {
+            enabled = false
+        }
+
+        withType<AbstractArchiveTask> {
+            isPreserveFileTimestamps = false
+            isReproducibleFileOrder = true
         }
     }
 }
