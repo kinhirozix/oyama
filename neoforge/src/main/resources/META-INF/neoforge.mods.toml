@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[3,)"
+license = "$license"
+issueTrackerURL = "$issues"
+
+[[mods]]
+modId = "$namespace"
+version = "$version"
+displayName = "$name"
+description = "$description"
+authors = "$authors"
+logoFile = "icon.png"
+
+[[dependencies."$namespace"]]
+modId = "minecraft"
+versionRange = "[1.21.1,1.22)"
+type = "required"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."$namespace"]]
+modId = "neoforge"
+versionRange = "[21.1.61,)"
+type = "required"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "oyama.common.mixins.json"
+
+[[mixins]]
+config = "oyama.neoforge.mixins.json"

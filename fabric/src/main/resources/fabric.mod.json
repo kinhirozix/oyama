@@ -1,0 +1,47 @@
+{
+    "schemaVersion": 1,
+    "id": "$namespace",
+    "version": "$version",
+    "name": "$name",
+    "description": "$description",
+    "authors": [
+        "$authors"
+    ],
+    "icon": "icon.png",
+    "license": "$license",
+    "contact": {
+        "homepage": "$homepage",
+        "sources": "$sources",
+        "issues": "$issues"
+    },
+    "entrypoints": {
+        "main": [
+            {
+                "value": "oyama.fabric.OyamaMod",
+                "adapter": "kotlin"
+            }
+        ],
+        "client": [
+            {
+                "value": "oyama.fabric.client.OyamaClientMod",
+                "adapter": "kotlin"
+            }
+        ],
+        "server": [
+            {
+                "value": "oyama.fabric.server.OyamaServerMod",
+                "adapter": "kotlin"
+            }
+        ]
+    },
+    "mixins": [
+        "oyama.common.mixins.json",
+        "oyama.fabric.mixins.json"
+    ],
+    "depends": {
+        "minecraft": "~1.21.1",
+        "fabricloader": ">=0.16.7",
+        "fabric-api": ">=0.105.0",
+        "fabric-language-kotlin": "^1.12.3"
+    }
+}

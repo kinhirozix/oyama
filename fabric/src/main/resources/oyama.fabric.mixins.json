@@ -1,0 +1,16 @@
+{
+    "required": true,
+    "minVersion": "0.8.5",
+    "compatibilityLevel": "JAVA_21",
+    "package": "oyama.fabric.mixin",
+    "mixins": [
+        "entity.MixinEntity",
+        "level.MixinServerLevel"
+    ],
+    "client": [
+        "client.level.MixinClientLevel"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+  }
+}
