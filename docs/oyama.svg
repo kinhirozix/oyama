@@ -7,18 +7,20 @@
             }
 
             to {
-            stroke-dashoffset: 300px;
+            stroke-dashoffset: 200px;
             }
             }
 
             #outer-circle {
-            stroke-dasharray: 20px;
+            stroke-dasharray: 50px;
             stroke-dashoffset: 100px;
+            stroke-linecap: round;
             animation: progress 50ms linear infinite;
             }
         </style>
     </defs>
     <g>
         <circle id="outer-circle" fill="none" cx="100" cy="100" r="95" stroke="gold" stroke-width="10"/>
+        <polygon points="100,30 130,100 170,100 140,150 60,150 30,100 70,100" fill="gold"/>
     </g>
 </svg>

@@ -1,2 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="150" height="150">
+<svg id="oyama" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+    <defs>
+        <style>
+            @keyframes progress {
+            from {
+            stroke-dashoffset: 100px;
+            }
+
+            to {
+            stroke-dashoffset: 200px;
+            }
+            }
+
+            #outer-circle {
+            stroke-dasharray: 50px;
+            stroke-dashoffset: 100px;
+            stroke-linecap: round;
+            animation: progress 50ms linear infinite;
+            }
+        </style>
+    </defs>
+    <g>
+        <circle id="outer-circle" fill="none" cx="100" cy="100" r="95" stroke="gold" stroke-width="10"/>
+    </g>
 </svg>
