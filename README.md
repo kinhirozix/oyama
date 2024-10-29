@@ -1,5 +1,5 @@
 <div align="center">
-<img src="docs/icon.png" alt="Oyama">
+<img src="docs/oyama.svg" alt="Oyama">
 
 # Oyama
 
