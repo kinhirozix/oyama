@@ -1,25 +1,16 @@
 <svg id="oyama" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
     <defs>
-        <style>
-            @keyframes progress {
-            from {
-            stroke-dashoffset: 100px;
-            }
-
-            to {
-            stroke-dashoffset: 200px;
-            }
-            }
-
-            #outer-circle {
-            stroke-dasharray: 50px;
-            stroke-dashoffset: 100px;
-            stroke-linecap: round;
-            animation: progress 50ms linear infinite;
-            }
-        </style>
+        <radialGradient
+            id="kotlin-fox" cx="0" cy="0" r="1"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(195 5) scale(195)">
+            <stop offset="0" stop-color="#EF4857"/>
+            <stop offset="0.5" stop-color="#D211EC"/>
+            <stop offset="1" stop-color="#7F52FF"/>
+        </radialGradient>
     </defs>
     <g>
         <circle id="outer-circle" fill="none" cx="100" cy="100" r="95" stroke="gold" stroke-width="10"/>
+        <polygon points="95,170 160,130 135,85 155,55 120,65 65,65 35,55 55,85 40,130" fill="url(#kotlin-fox)"/>
     </g>
 </svg>

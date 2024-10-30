@@ -2,20 +2,20 @@
     <defs>
         <style>
             @keyframes progress {
-            from {
-            stroke-dashoffset: 100px;
-            }
+                from {
+                    stroke-dashoffset: 100px;
+                }
 
-            to {
-            stroke-dashoffset: 200px;
-            }
+                to {
+                    stroke-dashoffset: 200px;
+                }
             }
 
             #outer-circle {
-            stroke-dasharray: 50px;
-            stroke-dashoffset: 100px;
-            stroke-linecap: round;
-            animation: progress 50ms linear infinite;
+                stroke-dasharray: 50px;
+                stroke-dashoffset: 100px;
+                stroke-linecap: round;
+                animation: progress 50ms linear infinite;
             }
         </style>
     </defs>
