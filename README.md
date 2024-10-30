@@ -5,8 +5,7 @@
 
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg)](https://fabricmc.net)
 
-**Oyama** is an open source multi-loader supported Minecraft library mod that focuses on component system, configuration
-management and gui creation.
+**Oyama** is a general utility, GUI, component and config library for modding on multi-loader.
 
 </div>
 
