@@ -8,9 +8,27 @@
             <stop offset="0.5" stop-color="#D211EC"/>
             <stop offset="1" stop-color="#7F52FF"/>
         </radialGradient>
+        <style>
+            @keyframes progress {
+                from {
+                    stroke-dashoffset: 100px;
+                }
+
+                to {
+                    stroke-dashoffset: 200px;
+                }
+            }
+
+            #outer-circle {
+                stroke-dasharray: 50px;
+                stroke-dashoffset: 100px;
+                stroke-linecap: round;
+                animation: progress 50ms linear infinite;
+            }
+        </style>
     </defs>
     <g>
         <circle id="outer-circle" fill="none" cx="100" cy="100" r="95" stroke="gold" stroke-width="10"/>
-        <polygon points="95,170 160,130 135,85 155,55 120,65 65,65 35,55 55,85 40,130" fill="url(#kotlin-fox)"/>
+        <polygon points="95,163 159,138 134,91 142,50 107,73 78,73 48,50 56,91 41,138" fill="url(#kotlin-fox)"/>
     </g>
 </svg>
